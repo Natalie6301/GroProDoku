@@ -1,11 +1,39 @@
 \chapter{Verfahrensbeschreibung}\label{ch:verfahrensbeschreibung}
 
 \section{Gesamtsystem}\label{sec:gesamtsystem}
+Die entwickelte Software liest die Daten ein und führt die Prüfungen nach semantischen und syntaktischen Fehlern aus.
+Danach ermittelt der Algorithmus die minimale Anzahl an Antennen, die benötigt wird, um alle Eckpunkte jeder Teilfläche zu erreichen.
+Im Anschluss werden die Daten in der Konsole wiedergegeben und in eine Datei geschrieben, sowie die Anweisungen für GnuPlot geschrieben.
 
 \subsection{Eingabe}\label{subsec:eingabe}
+Beim Einlesen wird der Pfad, der eingegeben wird, genutzt und die Datei gelesen.
+Nach allen syntaktischen und semantischen Überprüfungen werden die Variablen mit den Daten gefüllt.
+Hierbei wird für jeden Höhenwert ein Punkt erstellt, der die x-, y- und z-Koordinate füllt.
 
 \subsection{Verarbeitung}\label{subsec:verarbeitung}
+Die Verarbeitung enthält den Algorithmus, der in mehrere Schritte aufgeteilt ist und dementsprechend unterschiedliche Methoden nutzt.
+Der Algorithmus startet mit einer Antenne un prüft, ob es einen Punkt gibt, der alle anderen Punkte erreicht.
+Danach werden alle Kombinationen errechnet, die zwei Antennen enthalten.
+Diese Möglichkeiten werden iteriert und geschaut, ob mit dieser Kombination alle Eckpunkte erreichbar sind.
+Wenn immer noch nicht alle Punkte erreicht wurden, werden drei Antennen gesetzt.
+Dieses Verfahren nimmt nach jeder Iteration eine weitere Antenne dazu.
+Sobald eine Möglichkeit gefunden wurde, alle Punkte zu erreichen, ist das die minimale Anzahl an Antennen.
 
 \subsection{Ausgabe}\label{subsec:ausgabe}
+Die Ausgabe erfolgt, sobald die Anzahl an Antennen gefunden wurde.
+Zunächst werden die Eingabedaten wiederholt und die Antennenanzahl mit ihren Koordinaten in die Konsole ausgegeben und in eine Datei geschrieben.
+Danach werden die Anweisungen für GnuPlot zusammengesetzt.
+Für GnuPlot werden weitere Dateien benötigt, die die Koordinaten der Eckpunkte der Teilflächen enthält und jeweils eine Datei mit Koordinaten für jede Antennen.
 
 \subsection{Datenstrukturen}\label{subsec:datenstrukt}
+Innerhalb des Programms sind mehrere Modelle erstellt, um die Daten zu speichern und die Berechnung zu ermöglichen.
+Das erste Modell Punkt hält die Koordinaten der einzelnen Höhen mit x- und y-Koordinate.
+Außerdem enthält dieses Modell Methoden, um die Erreichbarkeit zwischen zwei Punkten zu prüfen.
+Des Weiteren wird diese Klasse genutzt, um das nächste Modell aufzustellen.
+Das Modell Gerade enthält zwei Vektoren, die als Punkt gespeichert werden.
+Die beiden Punkte entsprechen dem Stütz- und Richtungsvektor, die eine Gerade im dreidimensionalen System aufspannen.
+Das dritte genutzte Modell ist die Klasse Ebene, diese wird aus drei Vektoren erzeugt.
+Hierbei ist der erste Punkt der Aufpunkt, bei dem die Ebene ansetzt.
+Der zweite und dritte Punkt wird genutzt, um die Richtungsvektoren zu berechnen.
+Die Logik des Algorithmus liegt im Controller Antennenminimum.
+Die dritte Schicht des MVC-Systems ist View, die vom Nutzer den Pfad übergeben bekommt.

@@ -2,23 +2,82 @@
 
 
 \section{Interpretation der Aufgabe}\label{sec:interpretation-der-aufgabe}
+Im Flächengebiet der Matsedanier sollen Antennen aufgestellt werden, sodass jeder Eckpunkt der Teilflächen erreicht wird, da davon ausgegangen wird, wenn die Eckpunkte erreicht werden, wird die komplette Teilfläche erreicht.
+Um so wenig wie mögliche Antennen aufzustellen, soll ein Programm entwickelt werden, welches überprüft, wie viele minimal aufgestellt werden müssen.
+Hierfür wird überprüft, dass eine Antenne möglichst viele Punkte erreicht und dabei keine andere Fläche durchdringt.
+\\
+Das Programm arbeitet hierfür mit dem Eingabe-Verarbeitung-Ausgabe-Prinzip.
+Zunächst werden die Daten für das Flächengebiet eingelesen.
+Die Datei enthält den Namen des Beispiels, die Größen des zu berechnenden Bereiches und die Höhenangaben an den Eckpunkten.
+Es muss mindestens eine Angabe für die Höhe in der Zeile sein, da dann von ausgegangen wird, dass die nachfolgenden Höhen der vorangestellten entsprechen.
+Nachdem das Programm die Mindestanzahl an Antennen berechnet hat, werden mindestens vier Ausgabedateien erzeugt.
+Die Erste enthält die Eingabewerte, die Antennenanzahl und die Koordinaten der einzelnen Antennen.
+Die Zweite enthält die Anweisungen für GnuPlot, die Dritte enthält die Eckpunktkoordinaten der Teilflächen und die Vierte und Folgenden enthalten die Koordinaten der Antennen.
+\\
+Im Programm werden die eingelesenen Daten in einer Klasse Punkt gespeichert, diese enthält die drei Koordinaten des Eckpunktes.
+Im Vergleich zur Überlegung an Tag 1 ergibt diese Art des Speicherns der Daten den Vorteil, die Daten gekapselt zu nutzen und sortiert zu speichern.
+Hierbei sind die Koordinaten als Double gespeichert, obwohl die Koordinaten keine Nachkommastellen besitzen, da die Schnittpunkte bei der Berechnung der Erreichbarkeit Nachkommastellen besitzen können.
+\\
+Beim Einlesen werden die Daten überprüft, unter anderem wird die Anzahl der Daten überprüft, ob diese der Größe des Feldes entsprechen.
+Wenn die x-Koordinaten-Anzahl nicht mit der angegebenen Größe übereinstimmt, werden diese mit dem letzten Wert aufgefüllt.
+Falls die y-Koordinaten-Anzahl nicht übereinstimmt, wird abgebrochen und eine Exception geworfen.
+\\
+Der Algorithmus, der am ersten Tag beschrieben wurde, war schwer als Programm umzusetzen, sodass ein neuer Algorithmus entwickelt wurde.
+Der neue Algorithmus überprüft jede Möglichkeit eine einzelne Antenne aufzustellen, sodass jeder andere Punkt erreicht werden kann.
+Hierbei startet die Überprüfung der möglichen Positionen bei dem höchstmöglichen Punkt und geht die Liste der Datenpunkte absteigend der Höhen entlang.
+Falls nicht alle Punkte erreicht werden können, werden alle Möglichkeiten zwei Antennen aufzustellen überprüft.
+Hierbei werden die Datenpunkte wieder absteigend der Höhen kombiniert.
+Der Algorithmus überprüft danach jede Dreier-Kombinationen, Vierer usw.
+Hierbei auch wieder der Höhe absteigend nach sortiert.
+Der Algorithmus bricht ab, sobald alle Datenpunkte durch eine Antenne abgedeckt sind.
+\\
+Die Ausgabe passiert, nachdem die kleinste Anzahl an Antennen gefunden wurde.
+Zunächst werden in der Konsole die Eingabedaten wiederholt und das Ergebnis der Antennenanzahl mit den Koordinaten aufgelistet.
+Die erste Datei, die erzeugt wird, enthält ebenfalls diese Daten, die ausgegeben wurden.
+Danach werden die Dateien für GnuPlot erzeugt.
+Die erste Datei enthält die Anweisungen, um das Koordinatenfeld, die Felderflächen und Antennen zu setzen.
+Die nächste Datei enthält die Koordinaten, die die Eckpunkte beschreiben.
+Nachfolgend werden die Dateien für die Koordinaten der Antennen erzeugt.
+Pro Datei werden die Koordinaten angegeben, die die Antennen aufspannen, da diese 10 Meter hoch ist.
+
 
 
 \section{Fehlerarten}\label{sec:fehlerarten}
 
 \subsection{Technische Fehler}\label{subsec:technische-fehler}
+Ein technischer Fehler in dieser Software tritt auf, falls die einzulesende Datei nicht gefunden werden kann.
+Das tritt auf, falls die Datei im falschen Ordner liegt und/oder nicht der gesamte Pfad zu dieser Datei eingegeben wird.
 
 \subsection{Syntaktische Fehler}\label{subsec:syntaktische-fehler}
+Beim Einlesen der Datei können viele Fehler auftreten.
+Die Datei muss mindestens sieben Zeilen enthalten.
+Hierbei werden die Kommentarzeilen mit gezählt und geprüft.
+Die erste Zeile der Datei muss eine Kommentarzeile sein, also mit einem Semikolon starten.
+Des Weiteren muss die erste Zeile "*" beinhalten.
+Die zweite Zeile ist eine Kommentarzeile, die den Titel des Beispiels enthält.
+Die dritte Zeile wird wie die erste überprüft.
+Nachfolgend wird die nächste Zeile geprüft, dass diese wieder eine Kommentarzeile ist.
+Die sechste Zeile muss auch eine Kommentarzeile sein.
+Als Nächstes wird die Dimension in y-Richtung überprüft, ob diese der angegebenen Dimension entspricht.
+Hierbei werden die Zeilen nach der letzten Kommentarzeile gezählt und mit der angegebenen Größe des Feldes verglichen.
+Die Höhen und Dimensionen, die angegeben werden, dürfen keine Nachkommastellen haben.
+Beim Schreiben der Ausgabe, kann es passieren, dass die Daten nicht in die Dateien geschrieben werden können.
 
 \subsection{Semantische Fehler}\label{subsec:semantische-fehler}
-
+In der fünften Zeile sollen die Dimensionen des gesamten Feldes angegeben werden, falls diese negativ oder null sind, tritt ein Fehler auf.
+Des Weiteren dürfen angegebenen Höhen nur zwischen null und sechs gesetzt sein.
 
 \section{Fehlerbehandlung}\label{sec:fehlerbehandlung}
 
 \subsection{Technische Fehler}\label{subsec:technische-fehler-behandlung}
+Das Programm bricht ab und kann mit dem richtigen Dateipfad/-namen neu gestartet werden.
 
 \subsection{Syntaktische Fehler}\label{subsec:syntaktische-fehler-behandlung}
+Jeder syntaktische Fehler hat seine eigene Fehlernachricht, die an den Nutzer weitergegeben wird.
+Das Programm bricht ab.
 
 \subsection{Semantische Fehler}\label{subsec:semantische-fehler-behandlung}
+Es werden auch bei semantischen Fehlern Nachrichten an den Nutzer zurückgegeben und das Programm beendet sich.
 
 \subsection{Sonderfälle}\label{subsec:sonderfaelle}
+Wenn die Anzahl pro Zeile nicht mit der angegebenen x-Dimension des Feldes überein stimmt, werden die Werte mt dem letzten Wert aufgefüllt.
